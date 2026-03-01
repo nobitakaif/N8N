@@ -9,7 +9,8 @@ export interface NodeType {
   data : {
     type : "action" | "trigger",
     kind : NodeKind,
-    metadata : NodeMetadata
+    metadata : NodeMetadata,
+    label : string
   },
   id : string,
   position : {
@@ -53,6 +54,7 @@ export function CreateWorkflow() {
             type : "trigger",
             kind,
             metadata,
+            label : kind
           },
           position : {x : 0, y : 0 }
         }])

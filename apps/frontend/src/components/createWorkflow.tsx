@@ -1,16 +1,22 @@
 import { useState, useCallback } from 'react';
 import { ReactFlow, applyNodeChanges, applyEdgeChanges, addEdge } from '@xyflow/react';
-import { Sheet } from './ui/sheet';
+import { PriceTrigger } from './nodes/price-trigger';
+import { Timer } from './nodes/timer';
 import { Sidebar } from './sidebare';
 
  
-export type NodeKind =  "price-trigger" | "timer-trigger" | "hyperliquid" | "backpack" | "lighter"
+const nodeT = {
+  "price-trigger" : PriceTrigger,
+  "timer" : Timer
+}
+
+
+export type NodeKind =  "price-trigger" | "timer" | "hyperliquid" | "backpack" | "lighter"
 export interface NodeType {
+  type : NodeKind,
   data : {
-    type : "action" | "trigger",
-    kind : NodeKind,
+    kind : "action" | "trigger",
     metadata : NodeMetadata,
-    label : string
   },
   id : string,
   position : {
@@ -42,29 +48,37 @@ export function CreateWorkflow() {
     [],
   );
  
+  const onConnectEnd = useCallback((params,info )=>{
+    console.log(info)
+    
+  },[])
+  
   return (
 
     <div style={{ width: '100vw', height: '100vh' }}>
       {/* if the node's length == 0 then user will chose first nodes */}
-      {nodes.length == 0 && <Sidebar onSelect={(kind, metadata) =>{
+      
+      {nodes.length == 0 && <Sidebar onSelect={(type, metadata) =>{
+        
         console.log("reach here!!!")
         setNodes([...nodes, {
-          id : "1"+Math.random(),
+          id : "1"+ Math.random(),
+          type ,
           data : {
-            type : "trigger",
-            kind,
+            kind : "trigger",
             metadata,
-            label : kind
           },
           position : {x : 0, y : 0 }
         }])
       }}/>}
       <ReactFlow
+        nodeTypes={nodeT}
         nodes={nodes}
         edges={edges}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
+        onConnectEnd={onConnectEnd}
         fitView
       />
     </div>

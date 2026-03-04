@@ -10,7 +10,9 @@ export type PriceTriggerMetadata ={
 
 export function PriceTrigger({data, isConnected}:{data : {metadata :PriceTriggerMetadata },isConnected : boolean}){
     return <div className="p-4 border">
+        <div>
             {data.metadata.asset}
+        </div>
             {data.metadata.price}
             <Handle type="source" position={Position.Right}/>
     </div>

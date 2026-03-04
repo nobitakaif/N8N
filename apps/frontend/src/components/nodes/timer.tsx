@@ -5,7 +5,6 @@ export type TimerNodeMetadata ={
     time : number
 }
 
-
 export function Timer({data, isConnected} : {
     data : {
         metadata : TimerNodeMetadata

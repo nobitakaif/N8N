@@ -22,22 +22,22 @@ const PositionSchema = new Schema({
 })
 
 const NodeDataSchema = new Schema({
-    kind : { type : String, enum : ['ACTION' , 'TRIGGER']},
+    kind : {type : String, enum : ['ACTION' , 'TRIGGER']},
     metadata : Schema.Types.Mixed
 }, { _id : false })
 
 const NodeWorkflowSchema = new Schema({
     id : {type : String, required : true},
-    nodeId : { type : mongoose.Types.ObjectId, ref : 'Nodes'},
-    data : NodeDataSchema, // Schema.Types.Mixed => any type 
-    position : PositionSchema,
+    nodeId : { type : Schema.Types.ObjectId, ref : 'Nodes'},
+    data :{ type : NodeDataSchema, required : true}, // Schema.Types.Mixed => any type 
+    position : {type : PositionSchema, required : true},
     credentials : Schema.Types.Mixed
 }, {
     _id : false
 })
 
 const WorkflowSchema = new Schema({
-    userId : { type : mongoose.Types.ObjectId, required : true, ref : 'Users'},
+    userId : { type : Schema.Types.ObjectId, required : true, ref : 'Users'},
     nodes : [NodeWorkflowSchema],
     edges : [EdgeSchema]
 })
